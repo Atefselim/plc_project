@@ -1,0 +1,75 @@
+"Start Symbol" = <program>
+             
+!--------Terminal--------
+Id = [_]|{letter}{Alphanumeric}*
+Digit=('+'|'-')?{digit}+('.'{digit}+)? ('e'|('-'|'+'){digit}+'^' ('+'|'-'){digit}+('.'{digit}+)?)?
+!---------Rules---------
+<program> ::= Start <stmt_list> End
+           
+<stmt_list> ::= <concept>
+             |<concept><stmt_list>
+             
+<concept>::= <assign>
+          |<if_stmt>
+          |<for_stmt>
+          |<while_stm>
+          |<do_while_stm>
+          |<foreach_stm>
+          
+<assign>::= <id>'='<expr> ';'
+         
+<id>::= Id
+     
+<expr>::= <expr>'+'<expr>
+       |<expr>'-'<term>
+       |<term>
+       
+<term> ::= <term>'*'<factor>
+        |<term>'/'<factor>
+        |<term>'%'<factor>
+        |<factor>
+        
+<factor> ::= <factor>'**'<exp>
+          |<exp>
+          
+<exp> ::= '('<expr>')'
+       |<id>
+       |<digit>
+       
+<digit> ::= Digit
+         
+!---------if stmt-------------
+<if_stmt>::= if'('<cond>')' Start <stmt_list> End
+          |if'('<cond>')' Start <stmt_list> End else <stmt_list>
+          
+<cond> ::= <expr><op><expr>
+        
+<op> ::= '<'|'>'|'=='|'!='
+      
+!------------for stmt----------------        
+<for_stmt> ::= for '('<data><assign> ';'<cond>';'<step>')' '{'<stmt_list>'}'
+            
+<data> ::= int | float | double | string
+        <step> ::= '--'<id>
+                |<id>'--'
+                |<id>'++'
+                |'++'<id>
+                |<assign>
+                
+!-------------while_stm---------------
+                
+<while_stm>::= while'('<assign>')'Go <concept>
+            
+!----------------do_while-----------
+            
+<do_while_stm>::=Do<concept> while'('<assign>')''$'
+           
+!----------------foe_each_stm-------------------------
+<foreach_stm>::=foreach'('<type><id> in <expr>')'<concept>';'
+              
+<type>::= int|double|float|string
+       
+
+                
+
+                
